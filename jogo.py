@@ -11,6 +11,8 @@ contador_intro_3 = 10
 # COLOURS 
 WHITE = (255, 255, 255)
 DARK_BLUE = (32, 42, 67)
+BLUE = (0, 0, 255)
+ORANGE = (255, 100, 10)
 # FONTS
 intro_font = pygame.font.Font("game/galaxia.otf", 70)
 font = pygame.font.Font("game/galaxia.otf", 37)
@@ -19,7 +21,7 @@ over_q = pygame.font.Font("game/overq_font.ttf", 100)
 mebeo = pygame.font.Font("game/mebeo_true.ttf", 100)
 
 
-# CREATE A DISPLAY SURVACE AND SET ITS CAPTIONS
+# CREATE A DISPLAY SURFACE AND SET ITS CAPTIONS
 WINDOW_WIDTH = 1000
 WINDOW_HEIGHT = 600
 display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -122,6 +124,63 @@ tempo_dash2 = 20
 vida1 = 30
 vida2 = 30
 
+p1_r_bullet = False
+p1_l_bullet = False
+p2_r_bullet = False
+p2_l_bullet = False
+
+p1_bullets = []
+p1_bullets_l = []
+p1_bullets_r = []
+p2_bullets = []
+p2_bullets_l = []
+p2_bullets_r = []
+bullet_vel = 7
+max_bullets = 3
+
+P1_HIT = pygame.USEREVENT + 1
+P2_HIT = pygame.USEREVENT + 2
+
+def handle_bullets_right(p1_bullets_r, p2_bullets_r, personagem, personagem2):
+    for bullet in p1_bullets_r:
+        bullet.x += bullet_vel
+        if personagem2.colliderect(bullet):
+            pygame.event.post(pygame.event.Event(P2_HIT))
+            p1_bullets.remove(bullet)
+            p1_bullets_r.remove(bullet)
+        elif bullet.x > WINDOW_WIDTH or bullet.x<0:
+            p1_bullets.remove(bullet)
+            p1_bullets_r.remove(bullet)
+    for bullet in p2_bullets_r:
+        bullet.x += bullet_vel     
+        if personagem.colliderect(bullet):
+            pygame.event.post(pygame.event.Event(P1_HIT))
+            p2_bullets.remove(bullet)
+            p2_bullets_r.remove(bullet)
+        elif bullet.x < 0 or bullet.x>WINDOW_WIDTH:
+            p2_bullets.remove(bullet)
+            p2_bullets_r.remove(bullet)
+
+def handle_bullets_left(p1_bullets_l, p2_bullets_l, personagem, personagem2):
+    for bullet in p1_bullets_l:
+        bullet.x -= bullet_vel
+        if personagem2.colliderect(bullet):
+            pygame.event.post(pygame.event.Event(P2_HIT))
+            p1_bullets.remove(bullet)
+            p1_bullets_l.remove(bullet)
+        elif bullet.x > WINDOW_WIDTH or bullet.x<0:
+            p1_bullets.remove(bullet)
+            p1_bullets_l.remove(bullet)
+    for bullet in p2_bullets_l:
+        bullet.x -= bullet_vel     
+        if personagem.colliderect(bullet):
+            pygame.event.post(pygame.event.Event(P1_HIT))
+            p2_bullets.remove(bullet)
+            p2_bullets_l.remove(bullet)
+        elif bullet.x < 0 or bullet.x>WINDOW_WIDTH:
+            p2_bullets.remove(bullet)
+            p2_bullets_l.remove(bullet)
+
 
 # GAME LOOP
 estado = 'INTRO'
@@ -161,10 +220,32 @@ while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q and len(p1_bullets) < max_bullets:
+                    bullet = pygame.Rect(personagem_rect.x, personagem_rect.y + personagem_rect.height//2, 10, 5)
+                    p1_bullets.append(bullet)
+                    p1_bullets_l.append(bullet)
+                if event.key == pygame.K_e and len(p1_bullets) < max_bullets:
+                    bullet = pygame.Rect(personagem_rect.x + personagem_rect.width, personagem_rect.y + personagem_rect.height//2, 10, 5)
+                    p1_bullets.append(bullet)
+                    p1_bullets_r.append(bullet)
+                if event.key == pygame.K_u and len(p2_bullets) < max_bullets:
+                    bullet = pygame.Rect(personagem_rect2.x, personagem_rect2.y + personagem_rect2.height//2, 10, 5)
+                    p2_bullets.append(bullet)
+                    p2_bullets_l.append(bullet)
+                if event.key == pygame.K_o and len(p2_bullets) < max_bullets:
+                    bullet = pygame.Rect(personagem_rect2.x + personagem_rect2.width, personagem_rect2.y + personagem_rect2.height//2, 10, 5)
+                    p2_bullets.append(bullet)
+                    p2_bullets_r.append(bullet)
+
+
+            if event.type == P2_HIT:
+                vida2 -= 1
+            if event.type == P1_HIT:
+                vida1 -= 1
+        
+
         display_surface.fill(DARK_BLUE)
-    
-
-
 
         # MOVE PLAYER 1
         keys = pygame.key.get_pressed()
@@ -231,6 +312,13 @@ while running:
         #DRAW PLAYER 2
         display_surface.blit(personagem2, personagem_rect2)
         pygame.draw.rect(display_surface, (255, 0, 0), personagem_rect2, 2)
+        #DRAW BULLETS
+        handle_bullets_right(p1_bullets_r, p2_bullets_r, personagem_rect, personagem_rect2)
+        handle_bullets_left(p1_bullets_l, p2_bullets_l, personagem_rect, personagem_rect2)
+        for bullet in p2_bullets:
+            pygame.draw.rect(display_surface, BLUE, bullet)
+        for bullet in p1_bullets:
+            pygame.draw.rect(display_surface, ORANGE, bullet)
         #DISPLAY UPDATE
         pygame.display.update()
 
