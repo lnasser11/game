@@ -4,21 +4,24 @@ pygame.init()
 
 # FPS
 FPS = 60
+
 clock = pygame.time.Clock()
 contador_intro = 10
 contador_intro_2 = 10
 contador_intro_3 = 10
+
+
 # COLOURS 
 WHITE = (255, 255, 255)
 DARK_BLUE = (32, 42, 67)
 BLUE = (0, 0, 255)
 ORANGE = (255, 100, 10)
 # FONTS
-intro_font = pygame.font.Font("game/galaxia.otf", 70)
-font = pygame.font.Font("game/galaxia.otf", 37)
-font_title = pygame.font.Font("game/galaxia.otf", 150)
-over_q = pygame.font.Font("game/overq_font.ttf", 100)
-mebeo = pygame.font.Font("game/mebeo_true.ttf", 100)
+intro_font = pygame.font.Font("assets/galaxia.otf", 70)
+font = pygame.font.Font("assets/galaxia.otf", 37)
+font_title = pygame.font.Font("assets/galaxia.otf", 150)
+over_q = pygame.font.Font("assets/overq_font.ttf", 100)
+mebeo = pygame.font.Font("assets/mebeo_true.ttf", 100)
 
 
 # CREATE A DISPLAY SURFACE AND SET ITS CAPTIONS
@@ -28,57 +31,76 @@ display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption('OVER-Q')
 
 # LOAD IMAGES
-overq = pygame.image.load("game/fundo_overq_intro.png")
+overq = pygame.image.load("assets/fundo_overq_intro.png")
 overq_rect = overq.get_rect()
 overq = pygame.transform.scale(overq, (1000, 600))
 overq_rect.topleft = (0,0)
 
-background = pygame.image.load("game/fundo.jpg")
+background = pygame.image.load("assets/fundo.jpg")
 background_rect = background.get_rect()
 background = pygame.transform.scale(background, (600, 300))
 background_rect.topleft = (0,0)
 
 #CORACAO AZUL
-coracaoazul = pygame.image.load("game/coracaoazul.png")
+coracaoazul = pygame.image.load("assets/coracaoazul.png")
 coracaoazul_rect = coracaoazul.get_rect()
 coracaoazul = pygame.transform.scale(coracaoazul, (50, 50))
 coracaoazul_rect.topleft = (WINDOW_WIDTH-50,5)
 
-coracaoazul2 = pygame.image.load("game/coracaoazul.png")
+coracaoazul2 = pygame.image.load("assets/coracaoazul.png")
 coracaoazul_rect2 = coracaoazul2.get_rect()
 coracaoazul2 = pygame.transform.scale(coracaoazul2, (50, 50))
 coracaoazul_rect2.topleft = (WINDOW_WIDTH-110,5)
 
-coracaoazul3 = pygame.image.load("game/coracaoazul.png")
+coracaoazul3 = pygame.image.load("assets/coracaoazul.png")
 coracaoazul_rect3 = coracaoazul3.get_rect()
 coracaoazul3 = pygame.transform.scale(coracaoazul3, (50, 50))
 coracaoazul_rect3.topleft = (WINDOW_WIDTH-170,5)
 
+
+#CORACAO AZUL DPS Q DA DANO :(
+coracao_azul_dano = pygame.image.load("assets/coracaoazuldano.png")
+coracao_azul_dano_rect = coracao_azul_dano.get_rect()
+coracao_azul_dano = pygame.transform.scale(coracao_azul_dano, (50, 50))
+coracao_azul_dano_rect.topleft = (WINDOW_WIDTH-50,5)
+
+coracao_azul_dano2 = pygame.image.load("assets/coracaoazuldano.png")
+coracao_azul_dano_rect2 = coracao_azul_dano2.get_rect()
+coracao_azul_dano2 = pygame.transform.scale(coracao_azul_dano2, (50, 50))
+coracao_azul_dano_rect2.topleft = (WINDOW_WIDTH-110,5)
+
+
+coracao_azul_dano3 = pygame.image.load("assets/coracaoazuldano.png")
+coracao_azul_dano_rect3 = coracao_azul_dano3.get_rect()
+coracao_azul_dano3 = pygame.transform.scale(coracao_azul_dano3, (50, 50))
+coracao_azul_dano_rect3.topleft = (WINDOW_WIDTH-170,5)
+
+
 #CORACAO LARANJA
 
-coracaolaranja = pygame.image.load("game/coracaolaranja.png")
+coracaolaranja = pygame.image.load("assets/coracaolaranja.png")
 coracaolaranja_rect = coracaolaranja.get_rect()
 coracaolaranja = pygame.transform.scale(coracaolaranja, (50, 50))
 coracaolaranja_rect.topleft = (0,5)
 
-coracaolaranja2 = pygame.image.load("game/coracaolaranja.png")
+coracaolaranja2 = pygame.image.load("assets/coracaolaranja.png")
 coracaolaranja_rect2 = coracaolaranja2.get_rect()
 coracaolaranja2 = pygame.transform.scale(coracaolaranja2, (50, 50))
 coracaolaranja_rect2.topleft = (60,5)
 
-coracaolaranja3 = pygame.image.load("game/coracaolaranja.png")
+coracaolaranja3 = pygame.image.load("assets/coracaolaranja.png")
 coracaolaranja_rect3 = coracaolaranja3.get_rect()
 coracaolaranja3 = pygame.transform.scale(coracaolaranja3, (50, 50))
 coracaolaranja_rect3.topleft = (120,5)
 
 #PERSONAGEM 1
-personagem = pygame.image.load("game/personagem_jogo.png")
+personagem = pygame.image.load("assets/personagem_jogo.png")
 personagem = pygame.transform.scale(personagem, (50, 50))
 personagem_rect = personagem.get_rect()
 personagem_rect.center = (120, WINDOW_HEIGHT-26)
 
 #PERSONAGEM 2
-personagem2 = pygame.image.load("game/personagem2.png")
+personagem2 = pygame.image.load("assets/personagem2.png")
 personagem2 = pygame.transform.scale(personagem2, (50, 50))
 personagem_rect2 = personagem2.get_rect()
 personagem_rect2.center = (WINDOW_WIDTH-120, WINDOW_HEIGHT-26)
@@ -141,6 +163,7 @@ max_bullets = 3
 P1_HIT = pygame.USEREVENT + 1
 P2_HIT = pygame.USEREVENT + 2
 
+
 def handle_bullets_right(p1_bullets_r, p2_bullets_r, personagem, personagem2):
     for bullet in p1_bullets_r:
         bullet.x += bullet_vel
@@ -148,9 +171,11 @@ def handle_bullets_right(p1_bullets_r, p2_bullets_r, personagem, personagem2):
             pygame.event.post(pygame.event.Event(P2_HIT))
             p1_bullets.remove(bullet)
             p1_bullets_r.remove(bullet)
+
         elif bullet.x > WINDOW_WIDTH or bullet.x<0:
             p1_bullets.remove(bullet)
             p1_bullets_r.remove(bullet)
+
     for bullet in p2_bullets_r:
         bullet.x += bullet_vel     
         if personagem.colliderect(bullet):
@@ -168,6 +193,7 @@ def handle_bullets_left(p1_bullets_l, p2_bullets_l, personagem, personagem2):
             pygame.event.post(pygame.event.Event(P2_HIT))
             p1_bullets.remove(bullet)
             p1_bullets_l.remove(bullet)
+            
         elif bullet.x > WINDOW_WIDTH or bullet.x<0:
             p1_bullets.remove(bullet)
             p1_bullets_l.remove(bullet)
@@ -299,6 +325,7 @@ while running:
 
         #HEARTS
             #AZUL
+        
         display_surface.blit(coracaoazul, coracaoazul_rect)
         display_surface.blit(coracaoazul2, coracaoazul_rect2)
         display_surface.blit(coracaoazul3, coracaoazul_rect3)
@@ -306,6 +333,7 @@ while running:
         display_surface.blit(coracaolaranja, coracaolaranja_rect)
         display_surface.blit(coracaolaranja2, coracaolaranja_rect2)
         display_surface.blit(coracaolaranja3, coracaolaranja_rect3)
+
         #DRAW PLAYER 1
         display_surface.blit(personagem, personagem_rect)
         pygame.draw.rect(display_surface, (255, 0, 0), personagem_rect, 2)
